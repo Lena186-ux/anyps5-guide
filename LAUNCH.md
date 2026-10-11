@@ -4,7 +4,8 @@
 - Repository: https://github.com/Lena186-ux/anyps5-guide (public, main).
 - Vercel project: `anyps5-guide`, project ID `prj_SYc3giPi40GaTZRpA7kYUO6UzhmK`, team `team_5s6oVoWbOc9fBNOIw4er096N`.
 - First Ready deployment: `dpl_kaEtDys6AJxckb3oCW69tY2Dp6Fg`.
-- Production alias: https://anyps5-guide.vercel.app.
+- Production aliases: https://anyps5guide.com (canonical), https://anyps5-guide.vercel.app.
+- Latest Ready application deployment (2026-10-11): `dpl_tYTjcdbWLWuhgp7HMGLtRdZFJp83`, source commit `837c32f`; includes Google and Bing ownership meta tags.
 - Build: `node build.mjs`; 10 static content routes plus 404, sitemap, robots and local assets.
 - No test suite added or run. No analytics or ad account configured.
 - Source is pushed to GitHub. Vercel Git connection failed; production was published with the authenticated CLI. Automatic deployment from GitHub is not configured.
@@ -23,7 +24,7 @@ Values were returned by Vercel's domain verification tool. The `_domainconnect` 
 
 Final domain configuration on 2026-10-11: Vercel displays Valid Configuration for both domains. The www hostname has a domain-level 308 redirect to the apex, preserving paths. TCP queries to NameSilo authoritative DNS and 1.1.1.1 return the new apex addresses; www returns the specified CNAME.
 
-HTTPS origin verification with the hostname and Vercel address (normal certificate validation enabled) returns 200 for the apex and 308 for `https://www.anyps5guide.com/compatibility/`, with Location `https://anyps5guide.com/compatibility/`. Local default DNS and the in-app browser still use old parking addresses, so normal browser access to the custom domain has not been confirmed from this machine. The production Vercel alias is accessible in the in-app browser. Do not bypass certificate warnings or change correct DNS merely to work around local caching.
+HTTPS origin verification with the hostname and Vercel address (normal certificate validation enabled) returns 200 for the apex and 308 for `https://www.anyps5guide.com/compatibility/`, with Location `https://anyps5guide.com/compatibility/`. Propagation subsequently completed: the custom domain is accessible in the in-app browser and through ordinary HTTPS requests. Both apex addresses return the same valid sitemap with normal certificate validation.
 
 SEO methodology: gefei_seo `load_guide`, keyword topic, 2 credits charged, request `req_b024c1b078d45234`. No new search-volume or difficulty queries were made; no current demand or ranking estimates are claimed.
 
@@ -34,3 +35,17 @@ Edit `build.mjs` and local CSS/assets. Run `node build.mjs`, commit and push onl
 ## Content updates
 
 Read the latest upstream source, pin its commit, and update the check date with any revised claims. Expand compatibility only from source-linked evidence. Do not infer playability from conversion success. Distinguish check dates from actual test dates.
+
+## Search engine setup — 2026-10-11
+
+- Google Search Console: `sc-domain:anyps5guide.com` verified through the root DNS TXT provided by Google; HTTPS URL-prefix property also verified through a global HTML meta tag. Keep the verification TXT and meta tags in place.
+- Bing Webmaster Tools: only `https://anyps5guide.com/` added and verified through the global `msvalidate.01` meta tag. No other account sites imported.
+- Canonical sitemap: https://anyps5guide.com/sitemap.xml, 10 URLs, public HTTP 200 and `application/xml`, valid sitemap namespace. `robots.txt` allows all crawlers and declares this URL. Both production IPs also return the same XML to requests using a Googlebot user agent; these requests do not prove Google's own crawler fetched it.
+- Google accepted sitemap submission, including a retry after DNS verification. Its report still says “Couldn't fetch / Could not read sitemap”, discovered URLs 0. The exact cause is not supplied by GSC; a public transport/XML issue was not reproduced. This remains an open follow-up.
+- Bing sitemap: **Success**, 10 URLs discovered, 0 errors, 0 warnings.
+- Google homepage index inspection: not indexed / URL unknown to Google. Live test at 17:32 Asia/Shanghai says the URL can be indexed. Manual index request failed twice with Google's “problem submitting indexing request, try again later” message; no successful queue submission is claimed.
+- Bing homepage index inspection: discovered on 2026-10-11, not yet crawled/indexed. Homepage indexing request accepted (“Indexing requested”). Live test at 17:35 says the URL can be indexed, with no SEO/GEO issues found.
+- GSC aggregate indexing/performance reports are still processing, with its UI suggesting checking after approximately one day. Empty reports are not evidence that every site page is unindexed.
+- Next check: GSC sitemap fetch result and homepage request, then both engines' indexing reports after processing. Verification and sitemap submission do not guarantee indexing. No recurring monitor configured.
+- Methodology this setup: gefei_seo `load_guide`, topic `gsc`, **2 credits**, request `req_955d6dc18d41161c`; no paid keyword/domain queries repeated.
+- Production builds succeeded for verification-tag changes; no test suite added or run.

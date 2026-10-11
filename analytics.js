@@ -134,5 +134,6 @@
     }
   });
   const choice = readChoice();
-  if (choice) enable(choice); else show();
+  if (choice) enable(choice);
+  else if (location.pathname !== '/privacy/') show();
 })();

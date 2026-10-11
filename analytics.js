@@ -113,8 +113,22 @@
     if (!link) return;
     const u = new URL(link.href, location.href);
     if (u.hostname === 'github.com' && u.pathname.startsWith('/boykopovar/AnyPS5')) {
+      const params = {link_url: cleanUrl(u.href), link_domain: u.hostname};
+      if (enabled.ga && gaLoaded && location.hostname === 'anyps5guide.com' &&
+          !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey &&
+          !event.shiftKey && !event.altKey && (!link.target || link.target === '_self') && !link.hasAttribute('download')) {
+        // Let the key click finish processing before leaving this document.
+        event.preventDefault();
+        let navigated = false;
+        const continueNavigation = () => {
+          if (!navigated) { navigated = true; location.assign(link.href); }
+        };
+        params.event_callback = continueNavigation;
+        params.event_timeout = 800;
+        setTimeout(continueNavigation, 900);
+      }
       track(u.pathname.includes('/releases') ? 'upstream_release_click' : 'upstream_source_click',
-        {link_url: cleanUrl(u.href), link_domain: u.hostname});
+        params);
     } else if (u.origin === location.origin && ['/getting-started/', '/compatibility/', '/downloads/'].includes(u.pathname)) {
       track('guide_navigation', {destination: u.pathname});
     }

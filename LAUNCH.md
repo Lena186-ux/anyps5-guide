@@ -49,3 +49,16 @@ Read the latest upstream source, pin its commit, and update the check date with 
 - Next check: GSC sitemap fetch result and homepage request, then both engines' indexing reports after processing. Verification and sitemap submission do not guarantee indexing. No recurring monitor configured.
 - Methodology this setup: gefei_seo `load_guide`, topic `gsc`, **2 credits**, request `req_955d6dc18d41161c`; no paid keyword/domain queries repeated.
 - Production builds succeeded for verification-tag changes; no test suite added or run.
+
+## Google sitemap follow-up — 2026-10-11
+
+This section supersedes the initial Google homepage status above.
+
+- A fresh homepage inspection in the domain property now explicitly says **URL is on Google / Page is indexed**. Googlebot Smartphone last crawled it successfully at **2026-10-11 17:32:47 Asia/Shanghai**. User-declared and Google-selected canonical are both `https://anyps5guide.com/`. The previously opened URL-prefix inspection retained an older unknown-URL result; use a fresh inspection rather than interpreting the older result as current.
+- Live inspection of `https://anyps5guide.com/sitemap.xml` at **17:39:57 Asia/Shanghai** reports crawl allowed, successful fetch. The inspected response details confirm **200 OK**, **application/xml**, and source shows the actual 10-URL sitemap, not HTML or a login/challenge page.
+- Parsed the fresh public XML: standard urlset namespace, 10 unique URLs, all on the canonical HTTPS origin. Cloudflare's public resolver returned the two configured Vercel A addresses and no AAAA answer. A query to Google's 8.8.8.8 resolver timed out from this machine and cannot establish Google's DNS view.
+- Manual actions and Security issues reports both say no issues detected.
+- The canonical sitemap was resubmitted after Google's successful live fetch; GSC confirmed acceptance. The sitemap report still retains Couldn't fetch. This report-level failure has not been confirmed resolved, and no specific current transport or syntax defect was found to justify changing production code, security protections or DNS.
+- Retried homepage indexing in the URL-prefix property, then through a fresh domain-property inspection. Both requests returned Google's generic submission error; no successful new queue submission is claimed. The homepage is nevertheless already indexed independently of these retries.
+- The remaining Google sitemap report and manual-request errors require later service processing/retry; do not assert a specific root cause without evidence. Google's official troubleshooting guidance supports using live inspection's crawl/fetch results: https://support.google.com/webmasters/answer/7451001?hl=en.
+- Reused the previous gefei_seo GSC guide (request `req_955d6dc18d41161c`); **0 additional credits** in this follow-up. No production code changes or additional deployment were needed. No tests added or run.

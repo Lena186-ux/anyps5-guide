@@ -5,9 +5,9 @@
 - Vercel project: `anyps5-guide`, project ID `prj_SYc3giPi40GaTZRpA7kYUO6UzhmK`, team `team_5s6oVoWbOc9fBNOIw4er096N`.
 - First Ready deployment: `dpl_kaEtDys6AJxckb3oCW69tY2Dp6Fg`.
 - Production aliases: https://anyps5guide.com (canonical), https://anyps5-guide.vercel.app.
-- Latest Ready application deployment (2026-10-11): `dpl_tYTjcdbWLWuhgp7HMGLtRdZFJp83`, source commit `837c32f`; includes Google and Bing ownership meta tags.
+- Latest Ready application deployment (2026-10-11): `dpl_FcHAh4djoJXhVG8kT27haf1kmb6o`, source commit `da94075`; includes consent-gated GA4 and Clarity and preserves Google/Bing ownership tags.
 - Build: `node build.mjs`; 10 static content routes plus 404, sitemap, robots and local assets.
-- No test suite added or run. No analytics or ad account configured.
+- No test suite added or run. GA4 and Clarity configured as documented below; advertising is disabled.
 - Source is pushed to GitHub. Vercel Git connection failed; production was published with the authenticated CLI. Automatic deployment from GitHub is not configured.
 
 ## DNS
@@ -62,3 +62,32 @@ This section supersedes the initial Google homepage status above.
 - Retried homepage indexing in the URL-prefix property, then through a fresh domain-property inspection. Both requests returned Google's generic submission error; no successful new queue submission is claimed. The homepage is nevertheless already indexed independently of these retries.
 - The remaining Google sitemap report and manual-request errors require later service processing/retry; do not assert a specific root cause without evidence. Google's official troubleshooting guidance supports using live inspection's crawl/fetch results: https://support.google.com/webmasters/answer/7451001?hl=en.
 - Reused the previous gefei_seo GSC guide (request `req_955d6dc18d41161c`); **0 additional credits** in this follow-up. No production code changes or additional deployment were needed. No tests added or run.
+
+
+## Analytics and consent — 2026-10-11
+
+- GA4 property: **AnyPS5 Guide**, property ID `558453593`. Web stream **AnyPS5 Guide Web**, ID `16105621888`, URL `https://anyps5guide.com`, measurement ID **`G-38SEM5V1SQ`**. Reporting timezone China (GMT+08), currency CNY.
+- Clarity project: **AnyPS5 Guide**, ID **`yvzuwtz6tp`**, URL `https://anyps5guide.com/`. Strict masking saved and visibly confirmed in a received replay; Cookie setting off for consent mode, with explicit `consentv2` analytics grant after the visitor opts in. Advertising storage remains denied. Bot detection remains enabled.
+- Optional scripts are blocked until the visitor opts into the relevant service. GA4 uses basic consent mode; Clarity is not loaded at all before consent, preventing its cookieless collection while declined. Separate toggles, equally visible accept/reject buttons, and permanent Privacy settings entries are available. Choices expire after 180 days. Withdrawal clears our first-party `_ga*`, `_clck`, and `_clsk` cookies and reloads the document to remove trackers; cross-tab changes trigger a reload. Previously received provider data is not deleted by withdrawal.
+- Collection is restricted to the canonical hostname, so localhost, preview deployments and the Vercel alias do not contribute analytics. Privacy policy is readable before any choice. GA4 page/referrer parameters omit query strings and fragments; compatibility search text is not sent as a custom event. Compatibility input is explicitly masked for Clarity.
+- GA4 enhanced measurement: page views, scrolls, outbound clicks and supported file downloads enabled; site search, forms and video disabled. Google signals and advertising personalization disabled in the website tag.
+
+| Custom event | Meaning | Parameters | GA4 key event |
+| --- | --- | --- | --- |
+| `guide_navigation` | Click to setup, compatibility or downloads | `destination` (canonical path) | No |
+| `upstream_source_click` | Click to the upstream GitHub source/documentation | `link_url` (no query/fragment), `link_domain` | No |
+| `upstream_release_click` | Click to the upstream Releases page | `link_url` (no query/fragment), `link_domain` | Yes: once per session, no default monetary value |
+
+The same event names are sent to Clarity after its consent. Release clicks measure intent, not completed downloads or installation. Ordinary outbound navigation waits for GA4's event callback with a bounded fallback of 900 ms; modified clicks and new-tab links keep normal behavior.
+
+Validation performed on the public production website:
+
+- Initial visit and saved rejection: only the local `analytics.js` script present; neither vendor script loaded. Independent GA4-only and Clarity-only choices each loaded only the chosen vendor. Withdrawal from both reloaded without vendor scripts; the privacy page stayed readable.
+- GA4 realtime visibly received page views, scroll, engagement, outbound `click`, and all three custom events. Its key-event card displayed **2 `upstream_release_click` events** from the verification visits. These are validation traffic, not independent organic visits or actual downloads.
+- Clarity visibly received a live session entering `/getting-started/`; playback rendered the site with text masked. Its full dashboard and heatmaps were still processing on this initial project. Actual realtime receipt, rather than installation code alone, establishes successful collection.
+- Consent dialog reviewed at 390 px and 320 px widths; controls fit and can be operated. Browser viewport override was reset afterward.
+- Production build succeeded. Vercel CLI confirmed final **Ready** deployment `dpl_FcHAh4djoJXhVG8kT27haf1kmb6o`; public script contents matched the deployed source, and privacy page loaded normally. No test suite added or run.
+- Account screenshots are stored outside the public repository in `../anyps5-guide-evidence/analytics/`; do not publish account/session screenshots with website assets.
+- No additional paid Gefei calls: **0 credits**. Implementation follows official Google basic consent and gtag callback documentation and Microsoft Clarity consent v2/masking documentation.
+
+Operator links: [GA4 realtime](https://analytics.google.com/analytics/web/#/a403173714p558453593/realtime/overview), [Clarity recordings](https://clarity.microsoft.com/projects/view/yvzuwtz6tp/impressions), [public privacy policy](https://anyps5guide.com/privacy/).
